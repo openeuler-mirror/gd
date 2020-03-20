@@ -1,6 +1,6 @@
 Name:           gd
 Version:        2.2.5
-Release:        5
+Release:        6
 Summary:        A graphics library for quick creation of PNG or JPEG images
 License:        MIT
 URL:            http://libgd.github.io/
@@ -16,7 +16,7 @@ Patch6001:      CVE-2019-6978.patch
 Patch6002:      CVE-2018-1000222.patch
 Patch6003:      CVE-2019-11038.patch
 
-BuildRequires:  freetype-devel fontconfig-devel gettext-devel libjpeg-devel libpng-devel libtiff-devel libwebp-devel
+BuildRequires:  freetype-devel fontconfig-devel gettext-devel libjpeg-devel libpng-devel libtiff-devel libwebp-devel gdb
 BuildRequires:  libX11-devel libXpm-devel zlib-devel pkgconfig libtool perl-interpreter perl-generators liberation-sans-fonts
 
 Provides:       %{name}-progs
@@ -100,6 +100,9 @@ grep %{version} $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gdlib.pc
 %exclude %{_libdir}/libgd.a
 
 %changelog
+* Fri Mar 20 2020 songnannan <songnannan2@huawei.com> - 2.2.5-6
+- add gdb in buildrequires
+
 * Wed Sep 25 2019 wangli<wangli221@huawei.com>  2.2.5-5
 - Type:cves
 - ID:CVE-2019-11038
