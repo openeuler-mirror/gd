@@ -1,6 +1,6 @@
 Name:           gd
 Version:        2.2.5
-Release:        6
+Release:        7
 Summary:        A graphics library for quick creation of PNG or JPEG images
 License:        MIT
 URL:            http://libgd.github.io/
@@ -100,6 +100,9 @@ grep %{version} $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gdlib.pc
 %exclude %{_libdir}/libgd.a
 
 %changelog
+* Tue Aug 18 2020 smileknife<jackshan2010@aliyun.com> - 2.2.5-7
+- update release for rebuilding
+
 * Fri Mar 20 2020 songnannan <songnannan2@huawei.com> - 2.2.5-6
 - add gdb in buildrequires
 
