@@ -1,26 +1,19 @@
 Name:           gd
-Version:        2.2.5
-Release:        7
+Version:        2.3.0
+Release:        1
 Summary:        A graphics library for quick creation of PNG or JPEG images
 License:        MIT
 URL:            http://libgd.github.io/
 Source0:        https://github.com/libgd/libgd/releases/download/gd-%{version}/libgd-%{version}.tar.xz
 
-#PATCH-FIX-https://github.com/pisilinux/main/tree/master/multimedia/misc/gd/files
-Patch0001:      gd-2.1.0-multilib.patch
-#PATCH-CVE-2018-5711 - https://github.com/libgd/libgd/commit/a11f47475e6443b7f32d21f2271f28f417e2ac04
-Patch0002:      gd-2.2.5-upstream.patch
-#PATCH-FIX-OPENEULER
-Patch6000:      CVE-2019-6977.patch
-Patch6001:      CVE-2019-6978.patch
-Patch6002:      CVE-2018-1000222.patch
-Patch6003:      CVE-2019-11038.patch
+# Missing, temporary workaround, fixed upstream for next version
+Source1:        https://raw.githubusercontent.com/libgd/libgd/gd-%{version}/config/getlib.sh
 
 BuildRequires:  freetype-devel fontconfig-devel gettext-devel libjpeg-devel libpng-devel libtiff-devel libwebp-devel gdb
 BuildRequires:  libX11-devel libXpm-devel zlib-devel pkgconfig libtool perl-interpreter perl-generators liberation-sans-fonts
 
-Provides:       %{name}-progs
-Obsoletes:      %{name}-progs
+Provides:       %{name}-progs = %{version}-%{release}
+Obsoletes:      %{name}-progs < %{version}-%{release}
 
 %description
 The gd graphics library allows your code to quickly draw images complete with lines, arcs, text,
@@ -41,6 +34,7 @@ graphics library for creating PNG and JPEG images.
 
 %prep
 %autosetup -n libgd-%{version} -p1
+install -m 0755 %{SOURCE1} config/
 
 : $(perl config/getver.pl)
 
@@ -60,8 +54,12 @@ CFLAGS="$RPM_OPT_FLAGS -DDEFAULT_FONTPATH='\"\
 /usr/share/X11/fonts/Type1:\
 /usr/share/fonts/liberation\"'"
 
+%ifarch %{ix86}
+# see https://github.com/libgd/libgd/issues/242
+export CFLAGS="$CFLAGS -msse -mfpmath=sse"
+%endif
 
-%ifarch aarch64
+%ifarch aarch64 ppc64 ppc64le s390 s390x
 # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1359680
 export CFLAGS="$CFLAGS -ffp-contract=off"
 %endif
@@ -80,19 +78,21 @@ make check
 
 grep %{version} $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gdlib.pc
 
+%ldconfig_scriptlets
+
 %post  -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(-,root,root)
+%{!?_licensedir:%global license %%doc}
 %license COPYING
 %{_libdir}/*.so.*
 %{_bindir}/*
 %exclude %{_bindir}/gdlib-config
 
 %files devel
-%{_bindir}/gdlib-config
 %{_includedir}/*
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/gdlib.pc
@@ -100,6 +100,12 @@ grep %{version} $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gdlib.pc
 %exclude %{_libdir}/libgd.a
 
 %changelog
+* Wed Aug 19 2020 jinzhimin <jinzhimin2@huawei.com> - 2.3.0-1
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:upgrade to version 2.3.0
+
 * Tue Aug 18 2020 smileknife<jackshan2010@aliyun.com> - 2.2.5-7
 - update release for rebuilding
 
