@@ -1,6 +1,6 @@
 Name:           gd
-Version:        2.3.0
-Release:        4
+Version:        2.3.2
+Release:        1
 Summary:        A graphics library for quick creation of PNG or JPEG images
 License:        MIT
 URL:            http://libgd.github.io/
@@ -10,13 +10,10 @@ Source0:        https://github.com/libgd/libgd/releases/download/gd-%{version}/l
 Source1:        https://raw.githubusercontent.com/libgd/libgd/gd-%{version}/config/getlib.sh
 
 Patch6000:      backport-CVE-2021-38115.patch
-Patch6001:	backport-CVE-2021-40812.patch
+Patch6001:      backport-CVE-2021-40812.patch
 
 BuildRequires:  freetype-devel fontconfig-devel gettext-devel libjpeg-devel libpng-devel libtiff-devel libwebp-devel
 BuildRequires:  libX11-devel libXpm-devel zlib-devel pkgconfig libtool perl-interpreter perl-generators liberation-sans-fonts
-
-Provides:       %{name}-progs = %{version}-%{release}
-Obsoletes:      %{name}-progs < %{version}-%{release}
 
 %description
 The gd graphics library allows your code to quickly draw images complete with lines, arcs, text,
@@ -29,6 +26,14 @@ Summary:        The development libraries and header files for gd
 Requires:       %{name}%{?_isa} = %{version}-%{release} freetype-devel%{?_isa} fontconfig-devel%{?_isa} libjpeg-devel%{?_isa}
 Requires:       libpng-devel%{?_isa} libtiff-devel%{?_isa} libwebp-devel%{?_isa} libX11-devel%{?_isa}
 Requires:       libXpm-devel%{?_isa} zlib-devel%{?_isa}
+
+%package progs
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Summary:        Utility programs that use libgd
+
+%description progs
+The gd-progs package includes utility programs supplied with gd, a
+graphics library for creating PNG and JPEG images.
 
 %description    devel
 The gd-devel package contains the development libraries and header files for gd, a graphics
@@ -92,8 +97,10 @@ grep %{version} $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gdlib.pc
 %{!?_licensedir:%global license %%doc}
 %license COPYING
 %{_libdir}/*.so.*
-%{_bindir}/*
 %exclude %{_bindir}/gdlib-config
+
+%files progs
+%{_bindir}/*
 
 %files devel
 %{_includedir}/*
@@ -103,6 +110,9 @@ grep %{version} $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gdlib.pc
 %exclude %{_libdir}/libgd.a
 
 %changelog
+* Sat Nov 20 2021 hanhui<hanhui15@huawei.com> - 2.3.2-1
+- DESC:update to 2.3.2
+
 * Thu Sep 23 2021 liuyumeng<liuyumeng5@huawei.com> - 2.3.0-4
 - Type:CVE
 - CVE:CVE-2021-40812
