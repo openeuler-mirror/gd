@@ -1,6 +1,6 @@
 Name:           gd
 Version:        2.3.0
-Release:        3
+Release:        4
 Summary:        A graphics library for quick creation of PNG or JPEG images
 License:        MIT
 URL:            http://libgd.github.io/
@@ -10,7 +10,8 @@ Source0:        https://github.com/libgd/libgd/releases/download/gd-%{version}/l
 Source1:        https://raw.githubusercontent.com/libgd/libgd/gd-%{version}/config/getlib.sh
 
 Patch6000:      backport-CVE-2021-38115.patch
-Patch6001:	backport-CVE-2021-40812.patch
+Patch6001:      backport-CVE-2021-40812.patch
+Patch6002:      backport-CVE-2021-40145.patch
 
 BuildRequires:  freetype-devel fontconfig-devel gettext-devel libjpeg-devel libpng-devel libtiff-devel libwebp-devel gdb
 BuildRequires:  libX11-devel libXpm-devel zlib-devel pkgconfig libtool perl-interpreter perl-generators liberation-sans-fonts
@@ -103,6 +104,9 @@ grep %{version} $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gdlib.pc
 %exclude %{_libdir}/libgd.a
 
 %changelog
+* Fri Apr 08 2022 dongyuzhen <dongyuzhen@h-partners.com> - 2.3.0-4
+- fix CVE-2021-40145
+
 * Thu Sep 23 2021 liuyumeng<liuyumeng5@huawei.com> - 2.3.0-3
 - Type:CVE
 - ID:CVE-2021-40812
