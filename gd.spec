@@ -1,6 +1,6 @@
 Name:           gd
 Version:        2.3.2
-Release:        2
+Release:        3
 Summary:        A graphics library for quick creation of PNG or JPEG images
 License:        MIT
 URL:            http://libgd.github.io/
@@ -68,7 +68,7 @@ CFLAGS="$RPM_OPT_FLAGS -DDEFAULT_FONTPATH='\"\
 export CFLAGS="$CFLAGS -msse -mfpmath=sse"
 %endif
 
-%ifarch aarch64 ppc64 ppc64le s390 s390x
+%ifarch aarch64 ppc64 ppc64le s390 s390x loongarch64
 # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1359680
 export CFLAGS="$CFLAGS -ffp-contract=off"
 %endif
@@ -111,6 +111,9 @@ grep %{version} $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gdlib.pc
 %exclude %{_libdir}/libgd.a
 
 %changelog
+* Mon Feb 6 2023 Wenlong Zhang <zhangwenlong@loongson.cn> - 2.3.2-3
+- fix build error for loongarch64
+
 * Fri Apr 08 2022 dongyuzhen <dongyuzhen@h-partners.com> - 2.3.2-2
 - fix CVE-2021-40145
 
