@@ -108,7 +108,7 @@ grep %{version} $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gdlib.pc
 %exclude %{_libdir}/libgd.a
 
 %changelog
-* Mon Feb 13 2023 zhangpan <zhangpan@h-partners.com> - 2.3.3-3
+* Mon Feb 13 2023 zhangpan <zhangpan103@h-partners.com> - 2.3.3-3
 - fix build error for loongarch64
 
 * Sun Nov 13 2022 Funda Wang <fundawang@yeah.net> - 2.3.3-2
